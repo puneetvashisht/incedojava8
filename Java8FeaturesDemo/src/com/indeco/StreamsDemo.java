@@ -2,6 +2,9 @@ package com.indeco;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class StreamsDemo {
 	static class Book implements Comparable<Book>{		
@@ -110,15 +113,52 @@ public class StreamsDemo {
 		
 		
 		//Declarative
-		long totalCount = books.stream()
-		.map(b -> {
-			b.setTitle("T");
-			return b;
-		})		
-		.filter(b -> b.rating>4.8)
-		.forEach(action);
-		System.out.println(totalCount);
+//		books.stream()
+//		.map(b -> {
+//			b.setTitle("T");
+//			return b;
+//		})		
+//		.filter(b -> b.rating>4.8)
+//		.forEach(System.out::println);
 		
+		System.out.println(" *********** ");
+		List<String> foundBooks = books.stream()
+		.filter(b -> b.rating>4.8)
+		.distinct()
+		.limit(2)
+		.map(b -> b.getTitle())
+		.collect(Collectors.toList());
+		
+		System.out.println(foundBooks);
+		
+		boolean anyMatch = books.stream()
+			.anyMatch((d) -> d.rating>5.8 && d.price < 50);
+		
+		System.out.println(anyMatch);
+		
+		
+		boolean allMatch = books.stream()
+				.allMatch((d) -> d.rating>4.8);
+			
+			System.out.println(allMatch);
+			
+			
+			boolean noneMatch = books.stream()
+					.noneMatch((d) -> d.rating < 1);
+				
+				System.out.println(noneMatch);
+				
+				
+		// Numeric Streams
+				System.out.println(IntStream.of(14, 2, 32).max());
+				;
+				
+		// Inifinte Stream
+				Stream<Integer> infiniteStream = Stream.iterate(2, i -> i * 2);
+				
+				infiniteStream.limit(4).forEach(System.out::println);
+				
+				
 		
 		
 	}
