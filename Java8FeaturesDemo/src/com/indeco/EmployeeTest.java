@@ -1,6 +1,8 @@
 package com.indeco;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,12 +34,6 @@ public class EmployeeTest {
 //				return o1.salary.compareTo(o2.salary);
 //			}
 //		});
-		
-		Collections.sort(employees, (o1, o2) -> o1.salary.compareTo(o2.salary));
-		
-		System.out.println(employees);
-		
-		
 		// Print operation
 //		print(employees, new Condition(){
 //
@@ -49,8 +45,6 @@ public class EmployeeTest {
 //			
 //		});
 //		print(employees, (e)->true);
-		print(employees, (e)->e.firstName.startsWith("A"));
-		
 		// Conditional Print
 //		print(employees, new Condition(){
 //
@@ -60,13 +54,24 @@ public class EmployeeTest {
 //			}
 //			
 //		});
+		
+		Collections.sort(employees, (o1, o2) -> o1.salary.compareTo(o2.salary));
+		System.out.println(employees);
+		print(employees, (e)->true, (e)->System.out.println(e));
+		print(employees, (e)->e.firstName.startsWith("A"), System.out::println);
+		print(employees, (e)->e.lastName.startsWith("K"), System.out::println);
+		
+	
+		
+
 
 	}
 	
-	static void print(List<Employee> employees, Condition condition){
+	static void print(List<Employee> employees, Predicate<Employee> predicate, Consumer<Employee> consumer){
 		for(Employee e : employees){
-			if(condition.test(e)){
-				System.out.println(e);
+			if(predicate.test(e)){
+//				System.out.println(e);
+				consumer.accept(e);
 			}
 			
 		}
